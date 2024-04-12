@@ -11,7 +11,7 @@ export interface ItempUser extends Document {
 }
 
 const tempUserSchema = new Schema({
-  fullname: { type: string, required: true },
+  fullname: { type: String, required: true },
   phone: { type: String, reqired: true, unique: true },
   email: { type: String, reqired: true, unique: true },
   password: { type: String, reqired: true },

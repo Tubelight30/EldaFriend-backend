@@ -105,7 +105,7 @@ bun run dev
 ```json
 {
   "userId": "123",
-  "otp": "456789"
+  "otp": 459819
 }
 ```
 

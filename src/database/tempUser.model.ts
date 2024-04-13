@@ -16,7 +16,7 @@ const tempUserSchema = new Schema({
   email: { type: String, reqired: true, unique: true },
   password: { type: String, reqired: true },
   otp: { type: Number },
-  createdAt: { type: Date, expires: "1m", default: Date.now },
+  createdAt: { type: Date, expires: "5m", default: Date.now },
 });
 const tempUser = models.tempUser || model("tempUser", tempUserSchema);
 

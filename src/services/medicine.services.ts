@@ -24,8 +24,10 @@ export async function createMedicine({
 
     const now = new Date();
     let scheduledHour;
+    let scheduledMinute;
     try {
       scheduledHour = parseInt(scheduledTime.split(":")[0]);
+      scheduledMinute = parseInt(scheduledTime.split(":")[1]);
     } catch (error) {
       console.error(error);
       return {
@@ -38,8 +40,21 @@ export async function createMedicine({
     // * SETTING UP THE MEDCINE START DATE
     let medStartDate;
 
-    if (scheduledHour >= now.getHours()) {
+    if (scheduledHour > now.getHours()) {
       medStartDate = now;
+    } else if (scheduledHour === now.getHours()) {
+      if (scheduledMinute > now.getMinutes()) {
+        medStartDate = now;
+      } else if (scheduledMinute === now.getMinutes()) {
+        const timeGap = 15;
+        if (now.getSeconds() + timeGap < 60) {
+          medStartDate = now;
+        } else {
+          medStartDate = new Date(now.setDate(now.getDate() + 1));
+        }
+      } else {
+        medStartDate = new Date(now.setDate(now.getDate() + 1));
+      }
     } else {
       medStartDate = new Date(now.setDate(now.getDate() + 1));
     }

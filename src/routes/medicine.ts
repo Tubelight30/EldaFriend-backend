@@ -16,14 +16,16 @@ router.post("/create-med", async (req: Request, res: Response) => {
     const result = createMedSchema.safeParse(req.body);
 
     if (!result.success) {
+      console.log(result.error);
       return res.status(400).json({
         message: result.error.issues.map((issue) => issue.message).join(","),
       });
     }
 
-    const { userId, dosageType, medAmount, medName, duration, scheduledTime } =
+    let { userId, dosageType, medAmount, medName, duration, scheduledTime } =
       result.data;
 
+    scheduledTime = scheduledTime.slice(0, -3);
     const newMedicine = await createMedicine({
       userId,
       dosageType,

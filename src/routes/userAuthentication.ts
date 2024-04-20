@@ -66,7 +66,7 @@ router.post("/sign-up/verify-otp", async (req: Request, res: Response) => {
   }
 });
 
-router.get("/login", async (req: Request, res: Response) => {
+router.post("/login", async (req: Request, res: Response) => {
   try {
     const result = userLoginSchema.safeParse(req.body);
     if (result.success) {

@@ -198,6 +198,32 @@ export async function getUser(
       };
     }
 
+    return user._id;
+  } catch (error) {
+    console.error(error);
+    return {
+      error: true,
+      status: 500,
+      message: "Internal server error",
+    };
+  }
+}
+
+export async function getUserDetails(
+  userId: string
+): Promise<GetUserProp | { error: boolean; status: number; message: string }> {
+  try {
+    connectToDatabase();
+
+    const user = await User.findOne({ _id: userId }, { password: 0, otp: 0 });
+    if (!user) {
+      return {
+        error: true,
+        status: 404,
+        message: "User not found",
+      };
+    }
+
     return user;
   } catch (error) {
     console.error(error);

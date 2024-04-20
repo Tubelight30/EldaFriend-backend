@@ -199,6 +199,10 @@ bun run dev
 }
 ```
 
+Response status codes:
+200: succesfull login
+400: User not found
+
 ### <a id="meds" ></a>Medicines
 
 ### POST /api/user/create-med
@@ -240,7 +244,7 @@ bun run dev
 }
 ```
 
-- HTTP status codes: 201 for success, 400 for bad request, 404 for not found, 500 for internal server error.
+- HTTP status codes: 201 for success, 400 for bad request , 404 for not found, 500 for internal server error.
 
 ### PATCH /api/user/med-taken
 

@@ -2,6 +2,7 @@ import { Request, Response, Router } from "express";
 import {
   createUser,
   getUser,
+  getUserDetails,
   verifyOtp,
 } from "../services/authentication.services";
 
@@ -71,20 +72,40 @@ router.post("/login", async (req: Request, res: Response) => {
     const result = userLoginSchema.safeParse(req.body);
     if (result.success) {
       const { email, password } = result.data;
-      const user = await getUser(email, password);
+      const loggedInUserId = await getUser(email, password);
 
-      if (!user) {
+      if (!loggedInUserId) {
         return res.status(400).send("User not found");
       }
 
-      if ("error" in user) {
-        return res.status(user.status).send(user.message);
+      if ("error" in loggedInUserId) {
+        return res.status(loggedInUserId.status).send(loggedInUserId.message);
       }
 
-      return res.status(200).send(user);
+      return res.status(200).send(loggedInUserId);
     }
   } catch (error) {
     console.log(error);
+  }
+});
+
+router.get("/user-details", async (req: Request, res: Response) => {
+  try {
+    const userId = Array.isArray(req.headers["user-id"])
+      ? req.headers["user-id"][0]
+      : req.headers["user-id"];
+    if (userId === "") {
+      return res.status(422).send("Send the UID");
+    }
+    if (userId !== undefined) {
+      const user = await getUserDetails(userId);
+      if ("error" in user) {
+        return res.status(user.status).send(user.message);
+      }
+      return res.status(200).send(user);
+    }
+  } catch (error) {
+    return res.status(500).send("Internal Server Error");
   }
 });
 module.exports = router;

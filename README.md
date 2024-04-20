@@ -184,24 +184,39 @@ bun run dev
 
 ```json
 {
-  "_id": "65e5e402368294524c92cc00",
-  "fullname": "John",
-  "phone": "+919999999999",
-  "email": "john@gmail.com",
-  "password": "$hashedPassword",
-  "picture": null,
-  "globalPin": 1234,
-  "communities": [],
-  "medicines": [],
-  "expenses": [],
-  "otp": 0,
-  "verified": true
+  "_id": "65e5e402368294524c92cc00"
 }
 ```
 
+### GET /api/auth/user-details
+
+**Gets user details**
+
+### Headers:
+
+- Content-Type: application/json
+- user-id: "dummyUserid123456789"
+
+# Response:
+
+{
+"\_id": "65e5e402368294524c92cc00",
+"fullname": "John",
+"phone": "+919999999999",
+"email": "john@gmail.com",
+"picture": null,
+"globalPin": 1234,
+"communities": [],
+"medicines": [],
+"expenses": [],
+"verified": true
+}
+
 Response status codes:
-200: succesfull login
-400: User not found
+200: Successful retrieval of user details
+404: User not found
+422: Check headers/request body
+500: Internal Server Error
 
 ### <a id="meds" ></a>Medicines
 

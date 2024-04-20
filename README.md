@@ -222,7 +222,7 @@ Response status codes:
   "medAmount": "2",
   "medName": "cough syrup",
   "duration": "1",
-  "scheduledTime": "08:00"
+  "scheduledTime": "08:00 AM"
 }
 ```
 

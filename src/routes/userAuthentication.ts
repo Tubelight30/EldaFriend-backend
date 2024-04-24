@@ -17,7 +17,7 @@ router.get("/", async (req: Request, res: Response) => {
 
 router.post("/sign-up/getOtp", async (req: Request, res: Response) => {
   try {
-    const { fullname, email, phone, password } = req.body;
+    const { fullname, email, password } = req.body;
     const result = userSchema.safeParse(req.body);
 
     if (!result.success) {
@@ -25,15 +25,15 @@ router.post("/sign-up/getOtp", async (req: Request, res: Response) => {
         message: result.error.issues.map((issue) => issue.message).join(","),
       });
     }
-    const phoneNumber = parsePhoneNumberFromString(phone);
+    // const phoneNumber = parsePhoneNumberFromString(phone);
 
-    if (!phoneNumber?.isValid()) {
-      return res.status(400).json({
-        message: "Phone number is not valid.",
-      });
-    }
+    // if (!phoneNumber?.isValid()) {
+    //   return res.status(400).json({
+    //     message: "Phone number is not valid.",
+    //   });
+    // }
 
-    const newUser = await createUser({ fullname, email, phone, password });
+    const newUser = await createUser({ fullname, email, password });
     if ("error" in newUser) {
       console.log("There was an error:", newUser.message);
       return res.status(newUser.status).send(newUser.message);

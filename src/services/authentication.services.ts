@@ -25,27 +25,20 @@ const transporter = nodemailer.createTransport({
 export async function createUser({
   fullname,
   email,
-  phone,
   password,
-}: CreateUserParams): Promise<CreateUserResponse | CreateUserAltResponse> {
+}: Omit<CreateUserParams, "phone">): Promise<
+  CreateUserResponse | CreateUserAltResponse
+> {
   try {
     connectToDatabase();
 
-    const existingUser = await User.findOne({ $or: [{ email }, { phone }] });
+    const existingUser = await User.findOne({ email });
     if (existingUser) {
-      if (existingUser.email === email) {
-        return {
-          error: true,
-          status: 409,
-          message: "Email already exists",
-        };
-      } else {
-        return {
-          error: true,
-          status: 409,
-          message: "Phone number already exists",
-        };
-      }
+      return {
+        error: true,
+        status: 409,
+        message: "Email already exists",
+      };
     }
 
     const hashedPassword = await hashPassword(password);
@@ -64,22 +57,12 @@ export async function createUser({
     };
 
     const user = await tempUser.create({
-      fullname: fullname,
-      email: email,
-      phone: phone,
+      fullname,
+      email,
       password: hashedPassword,
-      otp: otp,
+      otp,
     });
 
-    // const user: any = await User.create({
-    //   fullname: fullname,
-    //   email: email,
-    //   phone: phone,
-    //   password: hashedPassword,
-    //   otp: otp,
-    //   verified: false,
-    //   globalPin: globalPin,
-    // });
     transporter.sendMail(mailOption, (error, info) => {
       if (error) {
         console.log({
@@ -115,6 +98,100 @@ export async function createUser({
     };
   }
 }
+
+// export async function createUser({
+//   fullname,
+//   email,
+//   phone,
+//   password,
+// }: CreateUserParams): Promise<CreateUserResponse | CreateUserAltResponse> {
+//   try {
+//     connectToDatabase();
+
+//     const existingUser = await User.findOne({ $or: [{ email }, { phone }] });
+//     if (existingUser) {
+//       if (existingUser.email === email) {
+//         return {
+//           error: true,
+//           status: 409,
+//           message: "Email already exists",
+//         };
+//       } else {
+//         return {
+//           error: true,
+//           status: 409,
+//           message: "Phone number already exists",
+//         };
+//       }
+//     }
+
+//     const hashedPassword = await hashPassword(password);
+
+//     // ? GENERATING OTP
+//     const otp = Math.floor(100000 + Math.random() * 900000);
+
+//     const mailOption = {
+//       from: {
+//         name: "Shreyas Mohanty",
+//         address: "shreyasmohanty0228@gmail.com",
+//       },
+//       to: email,
+//       subject: "Your OTP for signup",
+//       text: "Your OTP is: " + otp,
+//     };
+
+//     const user = await tempUser.create({
+//       fullname: fullname,
+//       email: email,
+//       phone: phone,
+//       password: hashedPassword,
+//       otp: otp,
+//     });
+
+//     // const user: any = await User.create({
+//     //   fullname: fullname,
+//     //   email: email,
+//     //   phone: phone,
+//     //   password: hashedPassword,
+//     //   otp: otp,
+//     //   verified: false,
+//     //   globalPin: globalPin,
+//     // });
+//     transporter.sendMail(mailOption, (error, info) => {
+//       if (error) {
+//         console.log({
+//           error: true,
+//           status: 500,
+//           message: "Error while sending the otp via email",
+//         });
+//         console.log(error);
+//       } else {
+//         console.log({
+//           error: true,
+//           status: 200,
+//           message: "Please check your email for the otp",
+//         });
+//       }
+//     });
+
+//     if (!user) {
+//       return {
+//         error: true,
+//         status: 500,
+//         message: `User not created due to an Internal server error`,
+//       };
+//     }
+
+//     return user;
+//   } catch (err) {
+//     console.error(err);
+//     return {
+//       error: true,
+//       status: 500,
+//       message: "Internal server error",
+//     };
+//   }
+// }
 
 export async function verifyOtp({
   userId,

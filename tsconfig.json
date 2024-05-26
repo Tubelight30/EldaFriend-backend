@@ -5,7 +5,8 @@
     "rootDir": "./src",
     "strict": true,
     "moduleResolution": "node",
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "typeRoots": ["node_modules/@types", "./types"]
   },
   "include": ["src/**/*.ts"],
   "exclude": ["node_modules"]

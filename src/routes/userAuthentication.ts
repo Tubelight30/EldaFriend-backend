@@ -6,7 +6,6 @@ import {
   verifyOtp,
 } from "../services/authentication.services";
 
-import parsePhoneNumberFromString from "libphonenumber-js";
 import { userLoginSchema, userSchema } from "../validations/user.validation";
 
 const router = Router();
@@ -25,13 +24,6 @@ router.post("/sign-up/getOtp", async (req: Request, res: Response) => {
         message: result.error.issues.map((issue) => issue.message).join(","),
       });
     }
-    // const phoneNumber = parsePhoneNumberFromString(phone);
-
-    // if (!phoneNumber?.isValid()) {
-    //   return res.status(400).json({
-    //     message: "Phone number is not valid.",
-    //   });
-    // }
 
     const newUser = await createUser({ fullname, email, password });
     if ("error" in newUser) {

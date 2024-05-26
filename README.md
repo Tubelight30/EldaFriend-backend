@@ -292,6 +292,66 @@ Response status codes:
 
 - HTTP Status Code: 204 No Content
 
+### GET /api/user/getMedicines
+
+**Gets all the medicines of a user.**
+
+#### Headers:
+
+- Content-Type: application/json
+
+#### Request Body:
+
+```json
+{
+  "userId": "123"
+}
+```
+
+#### Sample Response:
+
+- If Server error while getting all meds
+
+```json
+{
+  "message": "Internal Server error while getting the Medicines"
+}
+```
+
+- Successful response
+
+```json
+[
+  {
+    "_id": "65e5e49c368294524c92cc06",
+    "name": "Cough Syrup",
+    "scheduledTime": "8:00"
+  },
+  {
+    "_id": "65e5e4ea368294524c92cc09",
+    "name": "Dolo",
+    "scheduledTime": "14:00"
+  },
+  {
+    "_id": "6623ce293e907121089af226",
+    "name": "DummyMed",
+    "scheduledTime": "20:00"
+  },
+  {
+    "_id": "6623cf8f14b66b366c40a877",
+    "name": "DummyMed",
+    "scheduledTime": "19:50"
+  },
+  {
+    "_id": "6623d11aba798dad2b403fef",
+    "name": "DummyMed",
+    "scheduledTime": "19:00"
+  }
+]
+```
+
+- HTTP Status Code: 200 (success),204(medicine not found), 500(internal server failure), 422(request body error)
+
 ### <a id="community"></a>User Community
 
 ### POST /api/community/create

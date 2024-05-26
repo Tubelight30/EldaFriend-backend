@@ -27,4 +27,6 @@ app.use("/api/user", medRoutes);
 app.use("/api/user", expenseRotues);
 app.use("/api/community", communityRoutes);
 
-app.listen(process.env.SERVER_PORT, () => console.log("Server is listening"));
+app.listen(process.env.SERVER_PORT ? process.env.SERVER_PORT : 8000, () =>
+  console.log("Server is listening")
+);

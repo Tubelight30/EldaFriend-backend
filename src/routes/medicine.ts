@@ -5,9 +5,12 @@ import {
 } from "../services/medicine.services";
 import {
   createMedSchema,
+  getAllMedsRequest,
   updateIsCompletedSchema,
 } from "../validations/medicine.validation";
 import User from "../database/user.model";
+import Medicine from "../database/medicine.model";
+import { connectToDatabase } from "../lib/mongoose";
 
 const router = Router();
 
@@ -98,3 +101,31 @@ router.patch("/med-taken", async (req: Request, res: Response) => {
 });
 
 module.exports = router;
+
+router.get("/getMedicines", async (req: Request, res: Response) => {
+  try {
+    const result = getAllMedsRequest.safeParse(req.body);
+    if (!result.success) {
+      res.status(422).json({
+        message: result.error.issues.map((issue) => issue.message).join(","),
+      });
+    } else {
+      const { userId } = result.data;
+      connectToDatabase();
+      const meds = await Medicine.find({
+        userId: userId,
+      }).select("_id name scheduledTime");
+      if (meds.length > 0) {
+        return res.status(200).send(meds);
+      } else {
+        return res.status(204).json({
+          message: "No meds",
+        });
+      }
+    }
+  } catch (error) {
+    return res.status(500).json({
+      message: "Internal Server error while getting the Medicines",
+    });
+  }
+});

@@ -17,3 +17,7 @@ export const updateIsCompletedSchema = z.object({
     .refine((date) => !isNaN(date.getTime()), { message: "Invalid date" }),
   setTrue: z.boolean(),
 });
+
+export const getAllMedsRequest = z.object({
+  userId: z.string().min(1, { message: "User ID cannot be empty" }),
+});

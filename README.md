@@ -199,18 +199,20 @@ bun run dev
 
 # Response:
 
+```json
 {
-"\_id": "65e5e402368294524c92cc00",
-"fullname": "John",
-"phone": "+919999999999",
-"email": "john@gmail.com",
-"picture": null,
-"globalPin": 1234,
-"communities": [],
-"medicines": [],
-"expenses": [],
-"verified": true
+  "_id": "65e5e402368294524c92cc00",
+  "fullname": "John",
+  "phone": "+919999999999",
+  "email": "john@gmail.com",
+  "picture": null,
+  "globalPin": 1234,
+  "communities": [],
+  "medicines": [],
+  "expenses": [],
+  "verified": true
 }
+```
 
 Response status codes:
 200: Successful retrieval of user details

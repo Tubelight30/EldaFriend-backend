@@ -42,7 +42,6 @@ bun run dev
 {
   "fullname": "John Doe",
   "email": "johndoe@example.com",
-  "phone": "+1234567890",
   "password": "password123"
 }
 ```

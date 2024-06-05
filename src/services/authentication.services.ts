@@ -226,7 +226,6 @@ export async function verifyOtp({
     const newUser = await User.create({
       fullname: tempuser.fullname,
       email: tempuser.email,
-      phone: tempuser.phone,
       password: tempuser.password,
       otp: 0,
       verified: true,

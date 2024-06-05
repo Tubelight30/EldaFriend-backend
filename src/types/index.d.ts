@@ -4,7 +4,6 @@ import { IMedicine } from "../database/medicine.model";
 export interface CreateUserParams {
   fullname: string;
   email: string;
-  phone: string;
   password: string;
 }
 export interface CreateUserResponse {

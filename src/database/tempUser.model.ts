@@ -12,11 +12,11 @@ export interface ItempUser extends Document {
 
 const tempUserSchema = new Schema({
   fullname: { type: String, required: true },
-  phone: { type: String, reqired: true, unique: true },
+  phone: { type: String },
   email: { type: String, reqired: true, unique: true },
   password: { type: String, reqired: true },
   otp: { type: Number },
-  createdAt: { type: Date, expires: "5m", default: Date.now },
+  createdAt: { type: Date, expires: 600, default: Date.now },
 });
 const tempUser = models.tempUser || model("tempUser", tempUserSchema);
 
